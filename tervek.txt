@@ -1,1 +1,3 @@
 __Legcsodálatosabb gém létrehozása ever__
+- gyümölcsös képek szerzése
+- design létrehozása
