@@ -18,24 +18,52 @@ function bet(){
         alert("Nincs elég kredited!")
     }
 }
-
-let random0 = 1 + Math.floor(Math.random() * 8);
-let random1 = 1 + Math.floor(Math.random() * 8);
-let random2 = 1 + Math.floor(Math.random() * 8);
-
 const porgok = document.getElementsByClassName("porgo")
+let random = [];
+let counters = [];
+function startRoll(){
+    random = [ 
+        1 + Math.floor(Math.random() * 9),
+        1 + Math.floor(Math.random() * 9),
+        1 + Math.floor(Math.random() * 9)
+        ]
+    
+    counters = [1,1,1]
+    var rolling = setInterval(roll, 200, 0);
+    rolling = setInterval(roll, 200, 1);
+    rolling = setInterval(roll, 200, 2);
+    
+    setTimeout(function(){
+        kredit_b.innerHTML = parseInt(kredit_b.innerHTML) + bet_b.innerHTML * winnerTest();
+        bet_b.innerHTML = 0;
+    }, 3000);
+}
 
-porgok[0].innerHTML = '<img src="kepek/'+ random0 +'.png">'
-porgok[1].innerHTML = '<img src="kepek/'+ random1 +'.png">'
-porgok[2].innerHTML = '<img src="kepek/'+ random2 +'.png">'
-
-var rolling = setInterval(roll, 200);
-let counter = 1
-function roll(){
-    porgok[0].innerHTML = '<img src="kepek/'+ counter +'.png">'
-    if(counter == random0){
+function roll(num){
+    porgok[num].innerHTML = '<img src="kepek/'+ counters[num] +'.png">'
+    if(counters[num] == random[num]){
         clearInterval(rolling)
     } else{
-        counter++
+        console.log(counters[num])
+        counters[num]++
     }
+}
+
+function winnerTest(){
+    // 3 ugyan az
+    if(porgok[0].innerHTML == porgok[1].innerHTML &&
+       porgok[1].innerHTML == porgok[2].innerHTML){
+           alert("WINNER!")
+           return 10;
+       }
+    // 2 ugyan az
+    if(porgok[0].innerHTML == porgok[1].innerHTML ||
+       porgok[1].innerHTML == porgok[2].innerHTML ||
+       porgok[0].innerHTML == porgok[2].innerHTML){
+           alert("DUPLÁZÁS")
+           return 2;
+       }
+    // nincs találat
+    alert("SAJNOS NEM NYERT")
+    return 0;
 }
